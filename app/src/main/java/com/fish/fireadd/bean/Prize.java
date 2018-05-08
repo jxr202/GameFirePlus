@@ -15,6 +15,7 @@ public class Prize extends Rect
 	public static final int PRIZE_LIGHT = 4;	//无敌
 	public static final int PRIZE_P = 3;	//罩子
 	
+	public static final int PRIZE_B = 1;	//B子弹，Basic
 	public static final int PRIZE_S = 2;	//S子弹
 	public static final int PRIZE_F = 5;	//F子弹
 	public static final int PRIZE_L = 6;	//L子弹
@@ -40,6 +41,9 @@ public class Prize extends Rect
 			break;
 		case PRIZE_P:
 			this.bmpPrize = gameView.bmpPrizeP;
+			break;
+		case PRIZE_B:
+			this.bmpPrize = gameView.bmpPrizeB;
 			break;
 		case PRIZE_S:
 			this.bmpPrize = gameView.bmpPrizeS;
@@ -75,21 +79,18 @@ public class Prize extends Rect
 			step = 0;
 			if (gameView.rand.nextInt(100) >= 50)
 			{
-				this.x += 2;
+				this.x += 3;
 			}
 			else 
 			{
-				this.x -= 2;
+				this.x -= 3;
 			}
 		}
 		if (this.x + this.width > Constant.WIDTH)
 		{
 			this.x = Constant.WIDTH - this.width;
 		}
-		if (this.y + this.height > gameView.height)
-		{
-			this.y = gameView.height - this.height;
-		}
+
 	}
 	
 	public void hitMyPlane()

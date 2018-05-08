@@ -62,7 +62,7 @@ public class FlashView extends SurfaceView implements Callback
 		public void run()
 		{
 			// 动态更改图片的透明度值并不断重绘
-			for (int i = 255; i > -10; i = i - 10)
+			for (int i = 255; i > -10; i = i - 20)
 			{
 				currentAlpha = i;
 				if (currentAlpha < 0)
@@ -93,7 +93,7 @@ public class FlashView extends SurfaceView implements Callback
 				{
 					if (i == 255)
 					{
-						Thread.sleep(500); // 若是新图片，多等待一会
+						Thread.sleep(1000); // 若是新图片，多等待一会
 					}
 					Thread.sleep(sleepTime);
 				}

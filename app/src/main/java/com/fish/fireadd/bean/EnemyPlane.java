@@ -193,7 +193,7 @@ public class EnemyPlane extends Rect
 				//有一定机率产生奖品
 				if (rand.nextInt(100) > 50)
 				{
-					Prize prize = new Prize(x + width / 2 - 15, y + height / 2 - 15, rand.nextInt(5) + 2, gameView);
+					Prize prize = new Prize(x + width / 2 - 15, y + height / 2 - 15, rand.nextInt(6) + 1, gameView);
 					gameView.prizeVector.add(prize);
 				}
 				//播放小飞机爆炸的声音
@@ -205,7 +205,7 @@ public class EnemyPlane extends Rect
 				//大飞机产生奖品的机率更大
 				if (rand.nextInt(100) > 10)
 				{
-					Prize prize = new Prize(x + width / 2 - 15, y + height / 2 - 15, rand.nextInt(5) + 2, gameView);
+					Prize prize = new Prize(x + width / 2 - 15, y + height / 2 - 15, rand.nextInt(6) + 1, gameView);
 					gameView.prizeVector.add(prize);
 				}
 				//播放大飞机爆炸的声音

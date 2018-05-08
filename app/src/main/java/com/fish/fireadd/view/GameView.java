@@ -15,7 +15,6 @@ import com.fish.fireadd.bean.Boom;
 import com.fish.fireadd.bean.Prize;
 import com.fish.fireadd.bean.Rect;
 import com.fish.fireadd.bean.Tips;
-import com.fish.fireadd.constant.Constant;
 import com.fish.fireadd.constant.MediaPlayerUtil;
 import com.fish.fireadd.constant.SoundPoolUtil;
 
@@ -25,7 +24,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.style.BulletSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -122,6 +120,7 @@ public class GameView extends SurfaceView
 	//游戏中的奖品
 	public Bitmap bmpPrizeLight;
 	public Bitmap bmpPrizeP;
+	public Bitmap bmpPrizeB;
 	public Bitmap bmpPrizeS;
 	public Bitmap bmpPrizeF;
 	public Bitmap bmpPrizeL;
@@ -140,14 +139,6 @@ public class GameView extends SurfaceView
 	public Vector<Boom> boomVector = new Vector<Boom>();	
 	public Vector<Prize> prizeVector = new Vector<Prize>();	
 	
-//	private int enemyArray[][] = {
-//			{4, 7, 4, 2, 1, 2, 1, 1}, {8, 2, 1, 2, 4, 2, 4, 1}, {4, 9, 1, 2, 1, 4, 1, 4},{8, 4}, {4, 7}, {2, 3}, {5, 7}, {3, 3}, {5, 7, 9},
-//			{4, 2}, {4, 3}, {1, 5},{4, 4}, {4, 7}, {4, 3}, {4, 7}, {4, 3}, {8, 7, 9},
-//			{4, 2}, {4, 3}, {4, 5},{4, 4}, {4, 7}, {8, 3}, {5, 7}, {3, 3}, {5, 7, 9},
-//			{1, 4}, {4, 3}, {1, 5},{1, 4}, {1, 7}, {2, 3}, {4, 7}, {3, 3}, {5, 7, 9},
-//			{1, 4}, {1, 3}, {1, 5},{1, 4}, {1, 7}, {4, 3}, {5, 7}, {3, 3}, {5, 7, 9}
-//	};
-	
 	public int enemyArrayIndex = 0;
 	private int createEnemyTime = 100;
 	private int createEnemyCount = 0;
@@ -164,18 +155,27 @@ public class GameView extends SurfaceView
 	private int dx = 0;
 	private int dy = 0;
 	
-	
-	public int enemyArrayData[][][] = {
-			{{4, 1, 1}, {4, 1}, {1, 2}, {4}, {4, 5}, {2, 3}, {5, 6}, {3, 3}, {5, 2, 2},
-			{4, 2}, {4, 3}, {1, 5},{4, 4}, {4, 6}, {4, 3}, {4, 4}, {4, 3}, {4, 5, 6},
-			{7}, {}, {}, {}, {4, 3}, {4, 5}, {4, 4}, {4, 6},  {3, 3}, {5, 2, 4},
-			{8}, {}, {}, {}, {1, 4}, {4, 3}, {1, 5}, {1, 4}, {1, 3}, {2, 3}, {4, 5}, 
-			{9}, {}, {}, {}, {3, 3}, {5, 2}, {1, 4}, {1, 3}, {1, 5},{1, 4}, {1, 7}, 
-			{4, 3}, {5, 7}, {3, 3}, {5, 1}},
+	//敌机的产生数组
+	public int enemyArrayData[][][] = 
+	{
+		{{4, 1, 1}, {4, 1}, {1, 2}, {4}, {4, 5}, {2, 3}, {5, 6}, {3, 3}, {5, 2, 2},
+		{4, 2}, {4, 3}, {1, 5},{4, 4}, {4, 6}, {4, 3}, {4, 4}, {4, 3}, {4, 5, 6},
+		{7}, {}, {}, {}, {4, 3}, {4, 5}, {4, 4}, {4, 6},  {3, 3}, {5, 2, 4},
+		{8}, {}, {}, {}, {1, 4}, {4, 3}, {1, 5}, {1, 4}, {1, 3}, {2, 3}, {4, 5}, 
+		{9}, {}, {}, {}, {3, 3}, {5, 2}, {1, 4}, {1, 3}, {1, 5},{1, 4}, {1, 7}, 
+		{4, 3}, {5, 7}, {3, 3}, {5, 1}, {-1}},
+		
+		{{4, 3, 2, 6}, {4, 1, 3}, {1, 2, 4, 8, 5}, {4, 2, 2, 1}, {4, 5, 3, 3}, {2, 6, 6, 3}, 
+		{5, 6, 1, 2}, {1, 2, 3, 3}, {4, 5, 2, 2}, {1, 3, 4, 2}, {2, 4, 4, 3}, {1, 5, 6},
+		{7}, {}, {}, {}, {4, 3, 6, 3}, {6, 6, 4, 5}, {6, 6, 6, 4, 4}, {1, 2, 4, 6},  {6, 2, 3, 3}, 
+		{5, 2, 4, 3}, {2, 6, 5, 4}, {3, 3, 3, 6}, {4, 2, 1, 6}, {5, 5, 5, 6, 1}, {2, 3, 1, 5, 5},
+		{8}, {}, {}, {}, {1, 6, 6, 4}, {6, 5, 4, 3}, {4, 1, 5}, {5, 1, 4}, {6, 2, 1, 3}, {2, 3, 6, 3}, 
+		{4, 5, 6, 2}, {3, 2, 5, 6}, {1, 4, 4, 4}, {2, 4, 5, 1}, {4, 1, 3, 6, 6}, {2, 1, 1, 4, 4},
+		{9}, {}, {}, {}, {7}, {4, 5, 6, 4}, {3, 3, 4}, {4, 5, 2}, {2, 1, 4}, {1, 4, 3}, {4, 1, 5}, {-1}},
 			
-			{{2}, {3}, {-1}},
-			
-			{{4}, {5}, {6}, {-1}}
+		{{7}, {}, {}, {}, {}, {8}, {}, {}, {}, {}, {5, 3, 1, 1}, {6, 4, 3, 2}, 
+		{9}, {}, {}, {}, {}, {4, 4, 3, 1}, {3, 2, 4, 6}, {4, 3, 5, 2}, {5, 5, 4, 4}, {3, 1, 4, 3}, {2, 4, 5, 6}, 
+		{8}, {}, {}, {}, {}, {4, 4, 3, 1}, {3, 2, 4, 6}, {4, 3, 5, 2}, {5, 5, 4, 4}, {3, 1, 4, 3}, {-1}}
 	};
 	public int enemyArray[][] = enemyArrayData[0];
 	
@@ -376,6 +376,7 @@ public class GameView extends SurfaceView
 		//游戏奖品的图片
 		bmpPrizeLight = BitmapFactory.decodeResource(res, R.drawable.prize_light);
 		bmpPrizeP = BitmapFactory.decodeResource(res, R.drawable.prize_p);
+		bmpPrizeB = BitmapFactory.decodeResource(res, R.drawable.prize_b);
 		bmpPrizeS = BitmapFactory.decodeResource(res, R.drawable.prize_s);
 		bmpPrizeF = BitmapFactory.decodeResource(res, R.drawable.prize_f);
 		bmpPrizeL = BitmapFactory.decodeResource(res, R.drawable.prize_l);

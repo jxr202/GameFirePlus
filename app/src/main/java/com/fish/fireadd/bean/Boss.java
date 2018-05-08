@@ -131,7 +131,7 @@ public class Boss extends Rect
 			return;
 		}
 		this.move();
-		if (rand.nextInt(100) > 99)
+		if (rand.nextInt(100) > 90)
 		{
 			this.fire();
 		}

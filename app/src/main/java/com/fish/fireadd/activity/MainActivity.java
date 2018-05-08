@@ -16,6 +16,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 
@@ -230,4 +231,21 @@ public class MainActivity extends Activity
 		}).show();
 		
 	}
+	
+	
+	/**
+	 * 拦截返回键
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		if (keyCode == KeyEvent.KEYCODE_BACK)
+		{
+			goToExitView();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	
+	
 }
