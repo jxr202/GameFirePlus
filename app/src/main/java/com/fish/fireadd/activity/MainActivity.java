@@ -1,6 +1,7 @@
 package com.fish.fireadd.activity;
 
 import com.fish.fireadd.view.GameView;
+import com.fish.fireadd.constant.Constant;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
